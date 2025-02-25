@@ -96,7 +96,8 @@ if st.session_state["show_inputs"]:
     st.write("Predict Tesla's stock movement based on news sentiment and stock features.")
 
     st.subheader("📰 Enter News Headline")
-    news_text = st.text_area("Paste a recent Tesla-related news headline:",key= "news text")
+    default_text="olá"
+    news_text = st.text_area("Paste a recent Tesla-related news headline:",value = default_text, key= "news text")
 
     st.subheader("📊 Enter Stock Features")
     
