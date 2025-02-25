@@ -13,48 +13,54 @@ import joblib
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from sklearn.preprocessing import StandardScaler
 
-# Load tokenizer and FinBERT model
-tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
-finbert = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
-finbert.eval()  # Set to evaluation mode
+# Initialize session state if it's not already initialized
+if "counts" not in st.session_state:
+    st.session_state["counts"] = 0  # Set an initial value
+if st.session_state["counts"]==0:
+    
+    # Load tokenizer and FinBERT model
+    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+    finbert = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+    finbert.eval()  # Set to evaluation mode
 
-# Function to preprocess text
-def preprocess_text(text, max_length=512):
-    inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=max_length)
-    return inputs
-
-# Function to get embeddings for text input
-def get_embeddings(text, max_length=512):
-    inputs = preprocess_text(text, max_length)
-    with torch.no_grad():
-        outputs = finbert(**inputs, output_hidden_states=True)
-    embeddings = outputs.hidden_states[-1]
-    cls_embedding = embeddings[:, 0, :]
-    return cls_embedding.numpy().flatten()
-
-# Load trained scaler
-scaler = joblib.load("scaler.pkl")
-
-# Define LSTM model class (must match the architecture used during training)
-class LSTMClassifier(torch.nn.Module):
-    def __init__(self, input_size, hidden_size, num_classes):
-        super(LSTMClassifier, self).__init__()
-        self.lstm = torch.nn.LSTM(input_size, hidden_size, batch_first=True)
-        self.fc = torch.nn.Linear(hidden_size, num_classes)
-
-    def forward(self, x):
-        lstm_out, _ = self.lstm(x)
-        output = self.fc(lstm_out[:, -1, :])
-        return output
-
-# Load trained LSTM model
-input_size = 777
-hidden_size = 64
-num_classes = 3
-model = LSTMClassifier(input_size, hidden_size, num_classes)
-model.load_state_dict(torch.load("lstm_model.pth", weights_only=True))
-model.eval()  # Set model to evaluation mode
-
+    # Function to preprocess text
+    def preprocess_text(text, max_length=512):
+        inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=max_length)
+        return inputs
+    
+    # Function to get embeddings for text input
+    def get_embeddings(text, max_length=512):
+        inputs = preprocess_text(text, max_length)
+        with torch.no_grad():
+            outputs = finbert(**inputs, output_hidden_states=True)
+        embeddings = outputs.hidden_states[-1]
+        cls_embedding = embeddings[:, 0, :]
+        return cls_embedding.numpy().flatten()
+    
+    # Load trained scaler
+    scaler = joblib.load("scaler.pkl")
+    
+    # Define LSTM model class (must match the architecture used during training)
+    class LSTMClassifier(torch.nn.Module):
+        def __init__(self, input_size, hidden_size, num_classes):
+            super(LSTMClassifier, self).__init__()
+            self.lstm = torch.nn.LSTM(input_size, hidden_size, batch_first=True)
+            self.fc = torch.nn.Linear(hidden_size, num_classes)
+    
+        def forward(self, x):
+            lstm_out, _ = self.lstm(x)
+            output = self.fc(lstm_out[:, -1, :])
+            return output
+    
+    # Load trained LSTM model
+    input_size = 777
+    hidden_size = 64
+    num_classes = 3
+    model = LSTMClassifier(input_size, hidden_size, num_classes)
+    model.load_state_dict(torch.load("lstm_model.pth", weights_only=True))
+    model.eval()  # Set model to evaluation mode
+    
+    st.session_state["counts"] +=1
 
 import streamlit as st
 import time
@@ -84,7 +90,6 @@ st.title("📈 Tesla Stock Price Prediction")
 if not st.session_state["start_clicked"]:
     if st.button("Start", use_container_width=True, key="predict"):
         start_app()  # ✅ Update session state
-        st.rerun()  # ✅ Force Streamlit to refresh and hide the button immediately
 
 # ✅ Show input fields only if "Start" was clicked
 if st.session_state["show_inputs"]:
