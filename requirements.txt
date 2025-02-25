@@ -1,16 +1,7 @@
 pip==25.0.1
-appdirs==1.4.4
-atomicwrites==1.4.0
 huggingface-hub==0.29.1
-jsonpointer==2.1
 lxml==5.2.1
-mkl-service==2.4.0
 protobuf==4.25.3
-pyasn1-modules==0.2.8
-pyls-spyder==0.4.0
-PyQt5==5.15.10
-PyQtWebEngine==5.15.6
-pywin32==305.1
 safetensors==0.5.2
 setuptools==75.1.0
 sympy==1.13.1
