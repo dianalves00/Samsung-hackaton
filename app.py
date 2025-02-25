@@ -33,7 +33,7 @@ def get_embeddings(text, max_length=512):
     return cls_embedding.numpy().flatten()
 
 # Load trained scaler
-scaler = joblib.load("C:\\Users\\user\\.spyder-py3\\scaler.pkl")
+scaler = joblib.load("scaler.pkl")
 
 # Define LSTM model class (must match the architecture used during training)
 class LSTMClassifier(torch.nn.Module):
@@ -52,7 +52,7 @@ input_size = 777
 hidden_size = 64
 num_classes = 3
 model = LSTMClassifier(input_size, hidden_size, num_classes)
-model.load_state_dict(torch.load("C:\\Users\\user\\.spyder-py3\\lstm_model.pth", weights_only=True))
+model.load_state_dict(torch.load("lstm_model.pth", weights_only=True))
 model.eval()  # Set model to evaluation mode
 
 
