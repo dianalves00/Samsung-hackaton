@@ -96,29 +96,29 @@ if st.session_state["show_inputs"]:
     st.write("Predict Tesla's stock movement based on news sentiment and stock features.")
 
     st.subheader("📰 Enter News Headline")
-    news_text = st.text_area("Paste a recent Tesla-related news headline:", height=100, key= "news text")
+    news_text = st.text_area("Paste a recent Tesla-related news headline:",key= "news text")
 
     st.subheader("📊 Enter Stock Features")
     
 # Weekday Slider
     weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    selected_weekday = st.select_slider("Select Weekday", options=weekdays, value="Monday", key="weekday")
+    selected_weekday = st.select_slider("Select Weekday", options=weekdays, value="Wednesday", key="weekday")
     weekday_value = weekdays.index(selected_weekday)
         
 # Feature Inputs in Columns
     col1, col2 = st.columns(2)
 
     with col1:
-        closing_price = st.number_input("Closing Price", min_value=100.0, max_value=500.0, value=100.0, step=0.00001, format="%.5f", key="closing_price")
-        open_price = st.number_input("Price at Market Opening", min_value=100.0, max_value=500.0, value=100.0, step=0.00001, format="%.5f", key="open_price")
-        max_price = st.number_input("Maximum Price of the Day", min_value=100.0, max_value=500.0, value=100.0, step=0.00001, format="%.5f", key="max_price")
-        min_price = st.number_input("Lowest Price of the Day", min_value=100.0, max_value=500.0, value=100.0, step=0.00001, format="%.5f", key="min_price")
+        closing_price = st.number_input("Closing Price", min_value=100.0, max_value=500.0, value=210.66	, step=0.00001, format="%.5f", key="closing_price")
+        open_price = st.number_input("Price at Market Opening", min_value=100.0, max_value=500.0, value=223.82, step=0.00001, format="%.5f", key="open_price")
+        max_price = st.number_input("Maximum Price of the Day", min_value=100.0, max_value=500.0, value=224.80, step=0.00001, format="%.5f", key="max_price")
+        min_price = st.number_input("Lowest Price of the Day", min_value=100.0, max_value=500.0, value=210.32, step=0.00001, format="%.5f", key="min_price")
 
     with col2:
-        volume = st.number_input("Volume of Interactions", min_value=0.0, max_value=200.0, value=50.0, step=0.00001, format="%.5f", key="volume")
-        avg_7_days = st.number_input("Average from Last 7 Days", min_value=100.0, max_value=1500.0, value=800.0, step=0.00001, format="%.5f", key="avg_7_days")
-        change_1_day = st.number_input("Change % of Last Day", min_value=-10.0, max_value=10.0, value=0.0, step=0.00001, format="%.5f", key="change_1_day")
-        change_7_days = st.number_input("Change % of Last 7 Days", min_value=-20.0, max_value=20.0, value=0.0, step=0.00001, format="%.5f", key="change_7_days")
+        volume = st.number_input("Volume of Interactions", min_value=0.0, max_value=200.0, value=79.51, step=0.00001, format="%.5f", key="volume")
+        avg_7_days = st.number_input("Average from Last 7 Days", min_value=100.0, max_value=1500.0, value=215.627143, step=0.00001, format="%.5f", key="avg_7_days")
+        change_1_day = st.number_input("Change % of Last Day", min_value=-10.0, max_value=10.0, value=-5.647870, step=0.00001, format="%.5f", key="change_1_day")
+        change_7_days = st.number_input("Change % of Last 7 Days", min_value=-20.0, max_value=20.0, value=1.361690, step=0.00001, format="%.5f", key="change_7_days")
 
 
     st.markdown("<hr>", unsafe_allow_html=True)
