@@ -110,7 +110,7 @@ if st.session_state["show_inputs"]:
     col1, col2 = st.columns(2)
 
     with col1:
-        closing_price = st.number_input("Closing Price", min_value=100.0, max_value=500.0, value=210.66	, step=0.00001, format="%.5f", key="closing_price")
+        closing_price = st.number_input("Closing Price", min_value=100.0, max_value=500.0, value=200.66	, step=0.00001, format="%.5f", key="closing_price")
         open_price = st.number_input("Price at Market Opening", min_value=100.0, max_value=500.0, value=223.82, step=0.00001, format="%.5f", key="open_price")
         max_price = st.number_input("Maximum Price of the Day", min_value=100.0, max_value=500.0, value=224.80, step=0.00001, format="%.5f", key="max_price")
         min_price = st.number_input("Lowest Price of the Day", min_value=100.0, max_value=500.0, value=210.32, step=0.00001, format="%.5f", key="min_price")
